@@ -4,7 +4,7 @@ fn sum_vecs(vec_1: Vec<i32>, vec_2: Vec<i32>) -> Vec<i32> {
     return vec_1.iter().zip(vec_2.iter()).map(|(a, b)| a + b).collect();
 }
 
-fn part1(lines: Vec<Vec<i32>>) -> isize{
+fn part1(lines: Vec<Vec<i32>>) -> isize {
     let half_count: i32 = (lines.len() / 2).try_into().unwrap();
     let sum = lines
         .into_iter()
@@ -22,7 +22,7 @@ fn part1(lines: Vec<Vec<i32>>) -> isize{
 
     let gamma = isize::from_str_radix(&gamma_binary, 2).unwrap();
     let epsilon = isize::from_str_radix(&epsilon_binary, 2).unwrap();
-    return gamma*epsilon
+    return gamma * epsilon;
 }
 
 fn main() {
