@@ -22,7 +22,7 @@ fn part2(nums: &Vec<i32>) -> i32 {
             nums.iter()
                 .map(|y| {
                     let distance = (x - y).abs();
-                    return distance * (distance + 1) / 2;
+                    distance * (distance + 1) / 2
                 })
                 .sum()
         })
