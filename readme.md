@@ -5,3 +5,4 @@ Status:
 * Day2: 2/2
 * Day3: 1/2
 * Day4: 2/2
+* Day7: 2/2
