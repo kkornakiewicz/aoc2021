@@ -41,6 +41,53 @@ fn is_winning_board(b: &Board) -> bool {
     return false;
 }
 
+fn part1(draws: &Vec<i32>, bds: Vec<Board>) -> Option<i32> {
+    let mut boards = bds.clone();
+    for draw in draws {
+        boards = boards.into_iter().map(|b| mark_board(b, *draw)).collect();
+        let new_boards = boards
+            .clone()
+            .into_iter()
+            .filter(is_winning_board)
+            .collect::<Vec<Board>>();
+        if new_boards.len() == 1 {
+            let winning_board = &new_boards[0];
+            let result = winning_board
+                .into_iter()
+                .filter(|x| x.marked == false)
+                .map(|x| x.num)
+                .sum::<i32>()
+                * draw;
+            return Some(result);
+        }
+    }
+    return None;
+}
+
+fn part2(draws: &Vec<i32>, bds: Vec<Board>) -> Option<i32> {
+    let mut boards = bds.clone();
+    for draw in draws {
+        let new_boards = boards
+            .clone()
+            .into_iter()
+            .map(|b| mark_board(b, *draw))
+            .filter(|x| !is_winning_board(&x))
+            .collect::<Vec<Board>>();
+        if new_boards.len() == 0 {
+            let winning_board = mark_board(boards[0].clone(), *draw);
+            let result = winning_board
+                .into_iter()
+                .filter(|x| x.marked == false)
+                .map(|x| x.num)
+                .sum::<i32>()
+                * draw;
+            return Some(result);
+        }
+        boards = new_boards;
+    }
+    return None;
+}
+
 fn main() {
     let filename = "./src/input.txt";
     let data = fs::read_to_string(filename).expect("Unable to read file");
@@ -60,7 +107,7 @@ fn main() {
                 .collect::<Vec<i32>>()
         })
         .collect();
-    let mut boards: Vec<Board> = raw_boards
+    let boards: Vec<Board> = raw_boards
         .chunks(5)
         .map(|b| {
             b.iter()
@@ -74,24 +121,7 @@ fn main() {
                 .collect::<Vec<Cell>>()
         })
         .collect::<Vec<Board>>();
-    for draw in draws {
-        boards = boards.into_iter().map(|b| mark_board(b, draw)).collect();
-        // Hacky, probably can be done better without clonning
-        let new_boards = boards
-            .clone()
-            .into_iter()
-            .filter(is_winning_board)
-            .collect::<Vec<Board>>();
-        if new_boards.len() == 1 {
-            let winning_board = &new_boards[0];
-            let result = winning_board
-                .into_iter()
-                .filter(|x| x.marked == false)
-                .map(|x| x.num)
-                .sum::<i32>()
-                * draw;
-            println!("{}", result);
-            break;
-        }
-    }
+
+    println!("{}", part1(&draws, boards.clone()).unwrap());
+    println!("{}", part2(&draws, boards.clone()).unwrap());
 }
