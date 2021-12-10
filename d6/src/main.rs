@@ -1,8 +1,9 @@
 use std::fs;
 
+// Brute-force for now
 fn part1(nms: Vec<i8>) -> usize{
     let mut nums = nms.clone();
-    for i in 0..79 {
+    for _i in 0..79 {
         nums = nums.into_iter().map(|x| x - 1).collect::<Vec<i8>>();
         let new_borns = nums
             .clone()
@@ -24,7 +25,7 @@ fn part1(nms: Vec<i8>) -> usize{
 fn main() {
     let filename = "./src/input.txt";
     let data = fs::read_to_string(filename).expect("Unable to read file");
-    let mut nums = data
+    let nums = data
         .lines()
         .next()
         .unwrap()
